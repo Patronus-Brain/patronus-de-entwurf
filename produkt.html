@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Produkt – patronus (Seitenentwurf)</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="concept-banner">
+    🎨 Design-Entwurf / Konzept für ein mögliches Kaufangebot – nicht die aktuelle Live-Website von patronus.de
+  </div>
+
+  <div class="announcement">
+    <div class="wrapper">
+      <span>📞 0176 63 22 63 63 · WhatsApp &amp; Telefon</span>
+      <span>🚲 Persönlicher Abhol- &amp; Lieferservice in Ihrer Region</span>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="wrapper header-inner">
+      <a class="logo" href="index.html"><img src="logo-entwurf.png" alt="patronus Logo" /></a>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a class="active" href="patronen.html">Patronen</a></li>
+          <li><a href="kartuschen.html">Kartuschen</a></li>
+          <li><a href="index.html#ueber-uns">Über uns</a></li>
+          <li><a href="kontakt.html">Kontakt</a></li>
+        </ul>
+      </nav>
+      <div class="header-icons">
+        <form class="search-form header-search" role="search">
+          <button type="submit" class="search-form-icon" aria-label="Suchen" style="background:none;border:none;padding:0;cursor:pointer;display:flex">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </button>
+          <input type="text" name="q" placeholder="z.B. Brother, HP 300XL ..." />
+        </form>
+        <a href="#" aria-label="Konto"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
+        <a class="header-minicart" href="warenkorb.html" aria-label="Warenkorb">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          <span class="header-minicart-badge"></span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrapper pdp">
+    <div class="breadcrumb" id="pdp-crumb"></div>
+    <div id="pdp-content"></div>
+    <div id="pdp-related"></div>
+  </div>
+
+  <footer>
+    <div class="wrapper">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">patronus<span class="leaf">🍃</span></div>
+          <p>Die ökologische Alternative zu herkömmlichen Tintenpatronen und Tonerkartuschen – persönlich, regional und seit 2001 im Recycling zuhause.</p>
+        </div>
+        <div>
+          <h4>Sortiment</h4>
+          <ul>
+            <li><a href="patronen.html">Patronen</a></li>
+            <li><a href="kartuschen.html">Kartuschen</a></li>
+            <li><a href="index.html#ueber-uns">Über uns</a></li>
+            <li><a href="kontakt.html">Kontakt</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Kontakt</h4>
+          <ul>
+            <li>Julia Kirschke</li>
+            <li>Rotkleeweg 31, 26939 Ovelgönne</li>
+            <li>Tel./WhatsApp: 0176 63 22 63 63</li>
+            <li>info@patronus.de</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Rechtliches</h4>
+          <ul>
+            <li><a href="#">Impressum</a></li>
+            <li><a href="#">Datenschutzerklärung</a></li>
+            <li><a href="#">Cookie-Richtlinie</a></li>
+            <li><a href="#">Zahlung &amp; Versand</a></li>
+            <li><a href="#">AGB</a></li>
+            <li><a href="#">Widerrufsrecht</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© patronus – Julia Kirschke</span>
+        <span>Design-Entwurf, Stand 2026-07-15 · Produktdaten (Namen, Preise, Beschreibungen) 1:1 von der aktuellen Live-Seite übernommen</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="daten.js"></script>
+  <script src="app.js"></script>
+  <script>
+    const id = qs('id');
+    const p = getProdukt(id);
+    const content = document.getElementById('pdp-content');
+    const crumb = document.getElementById('pdp-crumb');
+    if (!p) {
+      crumb.innerHTML = '<a href="index.html">Home</a>';
+      content.innerHTML = '<div class="search-empty"><div class="big">🔍</div><h1>Produkt nicht gefunden</h1><p>Bitte kehren Sie zur <a href="index.html">Startseite</a> zurück.</p></div>';
+    } else {
+      const catUrl = p.category==='patronen' ? 'patronen.html' : 'kartuschen.html';
+      const catName = p.category==='patronen' ? 'Patronen' : 'Kartuschen';
+      crumb.innerHTML = '<a href="index.html">Home</a><span class="sep">/</span><a href="'+catUrl+'">'+catName+'</a><span class="sep">/</span><span class="current">'+p.title+'</span>';
+      const preis = fmtPreis(p.price, p.pricePrefix);
+      const subBadge = p.sub ? '<span class="pdp-badge">'+p.subLabel+'</span>' : '';
+      content.innerHTML =
+        '<div class="pdp-grid">' +
+          '<div class="pdp-gallery"><img src="'+p.image+'" alt="'+p.title+'" /></div>' +
+          '<div class="pdp-info">' +
+            '<div class="pdp-badge-row"><span class="pdp-badge eco">🌱 100 % recycelt</span>'+subBadge+'</div>' +
+            '<h1>'+p.title+'</h1>' +
+            '<div class="pdp-price">'+preis+'</div>' +
+            '<div class="pdp-vat">inkl. MwSt., zzgl. <a href="#">Versand</a></div>' +
+            '<div class="pdp-stock"><span class="dot"></span> Auf Lager – in 1–2 Werktagen bei Ihnen</div>' +
+            '<div class="pdp-buy">' +
+              '<div class="qty"><button type="button" onclick="stepQty(-1)">−</button><input id="qty" type="number" value="1" min="1" /><button type="button" onclick="stepQty(1)">+</button></div>' +
+              '<button class="btn-buy" onclick="inWarenkorb(p.id, parseInt(document.getElementById(\'qty\').value)||1); kaufFeedback(this);">In den Warenkorb</button>' +
+            '</div>' +
+            '<ul class="pdp-usps">' +
+              '<li><span class="ic">✓</span> Ausschließlich Original-Verpackungen, fachgerecht wiederbefüllt</li>' +
+              '<li><span class="ic">✓</span> Vor Versand geprüft – volle Funktionsfähigkeit</li>' +
+              '<li><span class="ic">✓</span> Persönlicher Abhol- &amp; Lieferservice in der Region möglich</li>' +
+            '</ul>' +
+            '<div class="pdp-desc">' +
+              '<h3>Beschreibung &amp; Kompatibilität</h3>' +
+              '<div class="compat"><span class="compat-label">Kompatibel mit folgenden Geräten / Modellen:</span>'+ (p.desc || 'Details auf Anfrage.') +'</div>' +
+              '<p class="pdp-legal">Alle Markennamen und Bezeichnungen von Geräteherstellern dienen ausschließlich der Anzeige der Kompatibilität und sind nicht auf dieses Produkt übertragbar. Kompatible Patrone/Kartusche von Fremdanbieter, kein Originalprodukt des jeweiligen Herstellers.</p>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      // related
+      const rel = PRODUKTE.filter(x => x.category===p.category && (p.sub? x.sub===p.sub : true) && x.id!==p.id).slice(0,4);
+      if (rel.length) {
+        document.getElementById('pdp-related').innerHTML =
+          '<div class="related-head"><h2>Weitere passende Produkte</h2></div><div class="product-grid">'+rel.map(karteHTML).join('')+'</div>';
+      }
+    }
+    function stepQty(d){ const el=document.getElementById('qty'); el.value=Math.max(1,(parseInt(el.value)||1)+d); }
+    function kaufFeedback(btn){ const o=btn.textContent; btn.textContent='✓ Zum Warenkorb hinzugefügt'; setTimeout(()=>btn.textContent=o,1400); }
+  </script>
+</body>
+</html>

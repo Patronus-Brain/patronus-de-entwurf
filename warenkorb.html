@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Warenkorb – patronus (Seitenentwurf)</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="concept-banner">
+    🎨 Design-Entwurf / Konzept für ein mögliches Kaufangebot – nicht die aktuelle Live-Website von patronus.de
+  </div>
+
+  <div class="announcement">
+    <div class="wrapper">
+      <span>📞 0176 63 22 63 63 · WhatsApp &amp; Telefon</span>
+      <span>🚲 Persönlicher Abhol- &amp; Lieferservice in Ihrer Region</span>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="wrapper header-inner">
+      <a class="logo" href="index.html"><img src="logo-entwurf.png" alt="patronus Logo" /></a>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="patronen.html">Patronen</a></li>
+          <li><a href="kartuschen.html">Kartuschen</a></li>
+          <li><a href="index.html#ueber-uns">Über uns</a></li>
+          <li><a href="kontakt.html">Kontakt</a></li>
+        </ul>
+      </nav>
+      <div class="header-icons">
+        <form class="search-form header-search" role="search">
+          <button type="submit" class="search-form-icon" aria-label="Suchen" style="background:none;border:none;padding:0;cursor:pointer;display:flex">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </button>
+          <input type="text" name="q" placeholder="z.B. Brother, HP 300XL ..." />
+        </form>
+        <a href="#" aria-label="Konto"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
+        <a class="header-minicart" href="warenkorb.html" aria-label="Warenkorb">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          <span class="header-minicart-badge"></span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrapper cart-wrap">
+    <div class="breadcrumb"><a href="index.html">Home</a><span class="sep">/</span><span class="current">Warenkorb</span></div>
+    <div class="page-hero" style="padding-bottom:16px"><h1>Ihr Warenkorb</h1></div>
+    <div id="cart-root"></div>
+  </div>
+
+  <footer>
+    <div class="wrapper">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">patronus<span class="leaf">🍃</span></div>
+          <p>Die ökologische Alternative zu herkömmlichen Tintenpatronen und Tonerkartuschen – persönlich, regional und seit 2001 im Recycling zuhause.</p>
+        </div>
+        <div>
+          <h4>Sortiment</h4>
+          <ul>
+            <li><a href="patronen.html">Patronen</a></li>
+            <li><a href="kartuschen.html">Kartuschen</a></li>
+            <li><a href="index.html#ueber-uns">Über uns</a></li>
+            <li><a href="kontakt.html">Kontakt</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Kontakt</h4>
+          <ul>
+            <li>Julia Kirschke</li>
+            <li>Rotkleeweg 31, 26939 Ovelgönne</li>
+            <li>Tel./WhatsApp: 0176 63 22 63 63</li>
+            <li>info@patronus.de</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Rechtliches</h4>
+          <ul>
+            <li><a href="#">Impressum</a></li>
+            <li><a href="#">Datenschutzerklärung</a></li>
+            <li><a href="#">Cookie-Richtlinie</a></li>
+            <li><a href="#">Zahlung &amp; Versand</a></li>
+            <li><a href="#">AGB</a></li>
+            <li><a href="#">Widerrufsrecht</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© patronus – Julia Kirschke</span>
+        <span>Design-Entwurf, Stand 2026-07-15 · Produktdaten (Namen, Preise, Beschreibungen) 1:1 von der aktuellen Live-Seite übernommen</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="daten.js"></script>
+  <script src="app.js"></script>
+  <script>
+    function renderCart(){
+      const cart = ladeWarenkorb();
+      const root = document.getElementById('cart-root');
+      if (!cart.length){
+        root.innerHTML = '<div class="cart-empty"><div class="big">🛒</div><h2>Ihr Warenkorb ist leer</h2><p style="color:var(--text-muted);margin:8px 0 22px">Stöbern Sie in unserem Sortiment an recycelten Patronen und Kartuschen.</p><a class="btn-buy" href="patronen.html">Zu den Patronen</a></div>';
+        return;
+      }
+      let lines = '';
+      cart.forEach(z => {
+        const p = getProdukt(z.id); if(!p) return;
+        const zeilenpreis = p.price ? (p.price*z.menge).toFixed(2).replace('.',',')+' €' : '–';
+        lines +=
+          '<div class="cart-line">' +
+            '<div class="cart-line-img"><img src="'+p.image+'" alt="'+p.title+'"></div>' +
+            '<div><div class="cart-line-title"><a href="produkt.html?id='+p.id+'" style="color:inherit">'+p.title+'</a></div>' +
+              '<div class="cart-line-sub">'+(p.category==='patronen'?'Tintenpatrone · '+p.subLabel:'Tonerkartusche')+'</div>' +
+              '<button class="cart-line-remove" onclick="entferneAusWarenkorb(\''+p.id+'\'); renderCart();">Entfernen</button></div>' +
+            '<div class="cart-line-right">' +
+              '<div class="qty"><button type="button" onclick="chg(\''+p.id+'\',-1)">−</button><input type="number" value="'+z.menge+'" min="1" onchange="setzeMenge(\''+p.id+'\',parseInt(this.value)||1); renderCart();"><button type="button" onclick="chg(\''+p.id+'\',1)">+</button></div>' +
+              '<div class="cart-line-price">'+zeilenpreis+'</div>' +
+            '</div>' +
+          '</div>';
+      });
+      const summe = warenkorbSumme();
+      const versand = summe >= 30 ? 0 : 4.90;
+      const gesamt = summe + versand;
+      root.innerHTML =
+        '<div class="cart-grid"><div class="cart-lines">'+lines+'</div>' +
+        '<div class="cart-summary"><h3>Zusammenfassung</h3>' +
+          '<div class="row"><span>Zwischensumme</span><span>'+summe.toFixed(2).replace('.',',')+' €</span></div>' +
+          '<div class="row"><span>Versand'+(versand===0?' (gratis ab 30 €)':'')+'</span><span>'+(versand===0?'0,00 €':versand.toFixed(2).replace('.',',')+' €')+'</span></div>' +
+          '<div class="row total"><span>Gesamt</span><span>'+gesamt.toFixed(2).replace('.',',')+' €</span></div>' +
+          '<a class="btn-buy" href="kasse.html">Zur Kasse</a>' +
+          '<div class="hint">inkl. MwSt. · Demo-Warenkorb, keine echte Bestellung</div>' +
+        '</div></div>';
+    }
+    function chg(id,d){ const c=ladeWarenkorb().find(z=>z.id===id); const m=Math.max(1,(c?c.menge:1)+d); setzeMenge(id,m); renderCart(); }
+    renderCart();
+  </script>
+</body>
+</html>
